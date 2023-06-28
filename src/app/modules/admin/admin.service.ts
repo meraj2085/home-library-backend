@@ -4,6 +4,10 @@ import { isUserExist } from "../../../utils/isUserExists";
 import { IAdmin } from "./admin.interface";
 import { Admin } from "./admin.model";
 import { isPasswordMatch } from "../../../utils/isPasswordMatch";
+import config from "../../../config";
+import { jwtHelpers } from "../../../utils/jwtHelper";
+import { Secret } from "jsonwebtoken";
+import { ILoginResponse } from "../../../interface/common";
 
 const createAdmin = async (
   payload: IAdmin
@@ -13,7 +17,7 @@ const createAdmin = async (
   return rest;
 };
 
-const login = async (payload: IAdmin) => {
+const login = async (payload: IAdmin): Promise<ILoginResponse> => {
   const { phoneNumber, password } = payload;
 
   const admin = await isUserExist(phoneNumber, Admin);
@@ -26,7 +30,25 @@ const login = async (payload: IAdmin) => {
   if (!passwordMatch) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Password is incorrect");
   }
-  return admin;
+
+  //create access token & refresh token
+  const { _id: userId, role } = admin;
+  const accessToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string
+  );
+
+  const refreshToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
 };
 
 export const AdminService = {

@@ -3,6 +3,8 @@ import { Request, RequestHandler, Response } from "express";
 import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import { AdminService } from "./admin.service";
+import config from "../../../config";
+import { ILoginResponse } from "../../../interface/common";
 
 const createAdmin: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
@@ -19,11 +21,18 @@ const createAdmin: RequestHandler = catchAsync(
 const login: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const result = await AdminService.login(req.body);
-    sendResponse(res, {
+    const { refreshToken, ...others } = result;
+
+    // Set refresh token into cookie
+    res.cookie("refreshToken", refreshToken, {
+      secure: config.env === "production",
+      httpOnly: true,
+    });
+    sendResponse<ILoginResponse>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: "User login successfully",
-      data: result,
+      data: others,
     });
   }
 );
