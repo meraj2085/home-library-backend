@@ -4,5 +4,6 @@ const router = express.Router();
 
 // Routes
 router.post("/create-admin", AdminController.createAdmin);
+router.post("/login", AdminController.login);
 
 export const AdminRoutes = router;

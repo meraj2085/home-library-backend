@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import { AdminModel, AdminRole, IAdmin } from "./admin.interface";
+import config from "../../../config";
+import bcrypt from 'bcrypt';
 
 const adminSchema = new Schema<IAdmin>(
   {
@@ -19,5 +21,14 @@ const adminSchema = new Schema<IAdmin>(
     },
   }
 );
+
+adminSchema.pre('save', async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds)
+  );
+  next();
+});
 
 export const Admin = model<IAdmin, AdminModel>("Admin", adminSchema);
