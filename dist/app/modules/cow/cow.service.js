@@ -19,11 +19,17 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CowService = void 0;
 const paginationHelper_1 = require("../../../shared/paginationHelper");
 const cow_const_1 = require("./cow.const");
+const mongoose_1 = require("mongoose");
 const cow_model_1 = require("./cow.model");
+const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
+const http_status_1 = __importDefault(require("http-status"));
 const getCows = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
     const { searchTerm } = filters, filtersData = __rest(filters, ["searchTerm"]);
     const { page, limit, skip, sortBy, minPrice, maxPrice, sortOrder } = paginationHelper_1.paginationHelper.calculatePagination(paginationOptions);
@@ -90,8 +96,11 @@ const createCow = (cowData) => __awaiter(void 0, void 0, void 0, function* () {
     const newCow = yield cow_model_1.Cow.create(cowData);
     return newCow;
 });
-const getSingleCow = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleCow = (id, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const cow = yield cow_model_1.Cow.findById(id);
+    if (!cow || !cow.seller.equals(new mongoose_1.Types.ObjectId(userId))) {
+        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Unauthorized to get this cow');
+    }
     return cow;
 });
 const updateCow = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -100,7 +109,11 @@ const updateCow = (id, payload) => __awaiter(void 0, void 0, void 0, function* (
     });
     return result;
 });
-const deleteCow = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteCow = (id, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const cow = yield cow_model_1.Cow.findById(id);
+    if (!cow || !cow.seller.equals(new mongoose_1.Types.ObjectId(userId))) {
+        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, 'Unauthorized to delete this cow');
+    }
     const result = yield cow_model_1.Cow.findByIdAndDelete(id);
     return result;
 });

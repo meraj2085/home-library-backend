@@ -62,7 +62,21 @@ const createOrder = (orderData) => __awaiter(void 0, void 0, void 0, function* (
     }
     return order;
 });
+const getSingleOrder = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const order = yield order_model_1.Order.findById(id)
+        .populate({
+        path: "cow",
+        populate: {
+            path: "seller",
+            select: "-password"
+        }
+    })
+        .populate("buyer", "-password")
+        .select("-createdAt -updatedAt -__v");
+    return order;
+});
 exports.OrderService = {
     getOrders,
     createOrder,
+    getSingleOrder,
 };
