@@ -20,17 +20,9 @@ const signUp = async (userData: IUser): Promise<IUser | null> => {
 
 const login = async (payload: IUser): Promise<ILoginResponse> => {
   const { phoneNumber, password } = payload;
-  const matchUser = await isUserExist(phoneNumber, User);
-  const matchAdmin = await isUserExist(phoneNumber, Admin);
-  if (!matchUser && !matchAdmin) {
+  const user = await isUserExist(phoneNumber, User);
+  if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
-  }
-
-  let user;
-  if (matchUser) {
-    user = matchUser;
-  } else if (matchAdmin) {
-    user = matchAdmin;
   }
 
   // Check if password is correct
