@@ -23,24 +23,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthController = void 0;
+exports.AdminController = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const auth_service_1 = require("./auth.service");
+const admin_service_1 = require("./admin.service");
 const config_1 = __importDefault(require("../../../config"));
-const signUp = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userData = req.body;
-    const result = yield auth_service_1.AuthService.signUp(userData);
+const createAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield admin_service_1.AdminService.createAdmin(req.body);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
-        message: "User created successfully",
+        message: "Admin created successfully",
         data: result,
     });
 }));
 const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield auth_service_1.AuthService.login(req.body);
+    const result = yield admin_service_1.AdminService.login(req.body);
     const { refreshToken } = result, others = __rest(result, ["refreshToken"]);
     // Set refresh token into cookie
     res.cookie("refreshToken", refreshToken, {
@@ -54,22 +53,7 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
         data: others,
     });
 }));
-const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { refreshToken } = req.cookies;
-    const result = yield auth_service_1.AuthService.refreshToken(refreshToken);
-    res.cookie('refreshToken', refreshToken, {
-        secure: config_1.default.env === 'production',
-        httpOnly: true,
-    });
-    (0, sendResponse_1.default)(res, {
-        statusCode: 200,
-        success: true,
-        message: 'User login successfully!',
-        data: result,
-    });
-}));
-exports.AuthController = {
-    signUp,
+exports.AdminController = {
+    createAdmin,
     login,
-    refreshToken
 };

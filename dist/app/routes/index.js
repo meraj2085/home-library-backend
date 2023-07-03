@@ -9,6 +9,7 @@ const user_route_1 = require("../modules/user/user.route");
 const cow_routes_1 = require("../modules/cow/cow.routes");
 const order_routes_1 = require("../modules/order/order.routes");
 const auth_route_1 = require("../modules/auth/auth.route");
+const admin_route_1 = require("../modules/admin/admin.route");
 // Routes
 const moduleRoutes = [
     {
@@ -27,6 +28,10 @@ const moduleRoutes = [
         path: "/orders",
         route: order_routes_1.OrderRoutes,
     },
+    {
+        path: "/admins",
+        route: admin_route_1.AdminRoutes,
+    }
 ];
 moduleRoutes.forEach((route) => {
     router.use(route.path, route.route);

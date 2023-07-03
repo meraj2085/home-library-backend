@@ -12,33 +12,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Admin = void 0;
 const mongoose_1 = require("mongoose");
-const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_interface_1 = require("./user.interface");
+const admin_interface_1 = require("./admin.interface");
 const config_1 = __importDefault(require("../../../config"));
-const userSchema = new mongoose_1.Schema({
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const adminSchema = new mongoose_1.Schema({
     phoneNumber: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, required: true, enum: Object.values(user_interface_1.UserRoles) },
+    role: { type: String, required: true, enum: Object.values(admin_interface_1.AdminRole) },
+    password: { type: String, required: true, select: false },
     name: {
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
     },
-    address: { type: String, required: true },
-    budget: { type: Number, required: true, default: 0 },
-    income: { type: Number, required: true, default: 0 },
+    address: { type: String, required: true }
 }, {
     timestamps: true,
     toJSON: {
         virtuals: true,
     },
 });
-userSchema.pre('save', function (next) {
+adminSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
         user.password = yield bcrypt_1.default.hash(user.password, Number(config_1.default.bcrypt_salt_rounds));
         next();
     });
 });
-exports.User = (0, mongoose_1.model)("User", userSchema);
+exports.Admin = (0, mongoose_1.model)("Admin", adminSchema);

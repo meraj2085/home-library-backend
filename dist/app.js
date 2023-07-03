@@ -17,9 +17,11 @@ const cors_1 = __importDefault(require("cors"));
 const routes_1 = __importDefault(require("./app/routes"));
 const handleNotFoundError_1 = __importDefault(require("./errors/handleNotFoundError"));
 const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // Parser
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Routes

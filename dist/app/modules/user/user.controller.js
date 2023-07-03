@@ -57,9 +57,32 @@ const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getMyProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const result = yield user_service_1.UserService.getMyProfile(user === null || user === void 0 ? void 0 : user.userId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User's information retrieved successfully",
+        data: result,
+    });
+}));
+const updateMyProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = req.user;
+    const data = req.body;
+    const result = yield user_service_1.UserService.updateMyProfile(user === null || user === void 0 ? void 0 : user.userId, data);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User's information updated successfully",
+        data: result,
+    });
+}));
 exports.UserController = {
     getUsers,
     getSingleUser,
     updateUser,
     deleteUser,
+    getMyProfile,
+    updateMyProfile
 };
