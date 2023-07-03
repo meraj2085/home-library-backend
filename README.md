@@ -1,32 +1,47 @@
-### Live Link: https://digital-cow-hut-theta.vercel.app/
+### Live Link: https://cow-hut-auth-service-pi.vercel.app/
 
-### Application Routes:
+### Auth (User)
+
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/auth/login (POST)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/auth/signup (POST)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/auth/refresh-token (POST)
+
+### Auth (Admin)
+
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/admins/create-admin (POST)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/admins/login (POST)
 
 #### User
 
-- api/v1/auth/signup (POST)
-- api/v1/users (GET)
-- api/v1/users/648e7a42180e6ce0192907b2 (Single GET)
-- api/v1/users/648e7a42180e6ce0192907b2 (PATCH)
-- api/v1/users/648e7a42180e6ce0192907b2 (DELETE)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/users (GET)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/users/64a2d61cd05f57500fcb9c97 (Single GET)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/users/64a2d61cd05f57500fcb9c97 (PATCH)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/users/64a2d61cd05f57500fcb9c97 (DELETE)
 
 #### Cows
 
-- api/v1/cows (POST)
-- api/v1/cows (GET)
-- api/v1/cows/648e7b6f180e6ce0192907bb (Single GET)
-- api/v1/cows/648e7b6f180e6ce0192907bb (PATCH)
-- api/v1/cows/648e7b6f180e6ce0192907bb (DELETE)
-
-### Pagination and Filtering routes of Cows
-
-- api/v1/cows?page=1&limit=10
-- api/v1/cows?sortBy=price&sortOrder=asc
-- api/v1/cows?minPrice=20000&maxPrice=80000
-- api/v1/cows?location=Dhaka
-- api/v1/cows?searchTerm=80000
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/cows (POST)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/cows (GET)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/cows/64a2d6f1d05f57500fcb9ca0 (Single GET)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/cows/64a2d6f1d05f57500fcb9ca0 (PATCH)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/cows/64a2d6f1d05f57500fcb9ca0 (DELETE)
 
 #### Orders
 
-- api/v1/orders (POST)
-- api/v1/orders (GET)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/orders (POST)
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/orders (GET)
+
+
+ ## Bonus Part
+#### Admin
+
+- https://cow-hut-auth-service-pi.vercel.app/api/v1/admins/create-admin (POST)
+
+#### My Profile
+
+- Route: https://cow-hut-auth-service-pi.vercel.app/api/v1/users/my-profile (GET)
+- Route: https://cow-hut-auth-service-pi.vercel.app/api/v1/users/my-profile (PATCH)
+
+#### Order:
+
+ - https://cow-hut-auth-service-pi.vercel.app/api/v1/orders/64a2d819d16d6a7ad07e1234 (GET)
