@@ -24,7 +24,8 @@ const getCows: RequestHandler = catchAsync(
 const getSingleCow: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await CowService.getSingleCow(id);
+    const user = req.user;
+    const result = await CowService.getSingleCow(id, user?.userId);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
@@ -64,7 +65,8 @@ const updateCow: RequestHandler = catchAsync(
 const deleteCow: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const { id } = req.params;
-    const result = await CowService.deleteCow(id);
+    const user = req.user;
+    const result = await CowService.deleteCow(id, user?.userId);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
