@@ -5,6 +5,11 @@ import { ENUM_USER_ROLE } from "../../../enums/user";
 const router = express.Router();
 
 // Routes
+router.get(
+  "/:id",
+  auth(ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER),
+  OrderController.getSingleOrder
+);
 router.post("/", auth(ENUM_USER_ROLE.BUYER), OrderController.createOrder);
 router.get(
   "/",

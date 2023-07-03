@@ -29,7 +29,21 @@ const getOrders: RequestHandler = catchAsync(
   }
 );
 
+const getSingleOrder: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await OrderService.getSingleOrder(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Order information retrieved successfully",
+      data: result,
+    });
+  }
+);
+
 export const OrderController = {
   createOrder,
   getOrders,
+  getSingleOrder
 };

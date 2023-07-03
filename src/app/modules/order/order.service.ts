@@ -61,7 +61,25 @@ const createOrder = async (orderData: IOrder): Promise<IOrder | null> => {
   return order;
 };
 
+const getSingleOrder = async (id: string): Promise<IOrder | null> => {
+  const order = await Order.findById(id)
+    .populate({
+      path: "cow",
+      populate: {
+        path: "seller",
+        select: "-password"
+      }
+    })
+    .populate("buyer", "-password")
+    .select("-createdAt -updatedAt -__v");
+
+  return order;
+};
+
+
+
 export const OrderService = {
   getOrders,
   createOrder,
+  getSingleOrder,
 };
