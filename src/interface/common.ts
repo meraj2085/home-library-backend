@@ -18,6 +18,7 @@ export type IGenericResponse<T> = {
 export type ILoginResponse = {
   accessToken: string;
   refreshToken?: string;
+  email?: string;
 };
 
 export type IRefreshTokenResponse = {

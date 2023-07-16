@@ -12,7 +12,7 @@ export type IBook = {
   genre: string;
   publication_date: Date;
   comments: string[];
-  publisher_id: Types.ObjectId;
+  publisher_email: string;
 };
 
 export type BookModel = Model<IBook, Record<string, unknown>>;

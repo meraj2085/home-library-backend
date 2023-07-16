@@ -8,7 +8,7 @@ const bookSchema = new Schema<IBook>(
     genre: { type: String, required: true },
     publication_date: { type: Date, required: true },
     comments: { type: [String] },
-    publisher_id: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    publisher_email: { type: String, required: true },
   },
   {
     timestamps: true,

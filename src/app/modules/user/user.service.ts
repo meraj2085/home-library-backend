@@ -23,7 +23,7 @@ const signUp = async (userData: IUser): Promise<ILoginResponse> => {
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
-  return { accessToken };
+  return { accessToken, email: newUSer.email };
 };
 
 const login = async (payload: IUser): Promise<ILoginResponse> => {
@@ -56,6 +56,7 @@ const login = async (payload: IUser): Promise<ILoginResponse> => {
   return {
     accessToken,
     refreshToken,
+    email,
   };
 };
 

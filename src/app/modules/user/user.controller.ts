@@ -22,12 +22,12 @@ const getSingleUser: RequestHandler = catchAsync(
 const signUp: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userData = req.body;
-    const result = await UserService.signUp(userData);
+    const { accessToken, email } = await UserService.signUp(userData);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: "User created successfully",
-      data: result.accessToken,
+      data: { accessToken, email },
     });
   }
 );
@@ -35,18 +35,19 @@ const signUp: RequestHandler = catchAsync(
 const login: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const result = await UserService.login(req.body);
-    const { refreshToken, ...others } = result;
+    const { refreshToken, email, ...others } = result;
 
     // Set refresh token into cookie
     res.cookie("refreshToken", refreshToken, {
       secure: config.env === "production",
       httpOnly: true,
     });
+    const response = { ...others, email };
     sendResponse<ILoginResponse>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: "User login successfully",
-      data: others,
+      data: response,
     });
   }
 );
