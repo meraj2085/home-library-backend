@@ -1,6 +1,6 @@
-export const isUserExist = async function (phoneNumber: string, UserDb: any) {
+export const isUserExist = async function (email: string, UserDb: any) {
   return await UserDb.findOne(
-    { phoneNumber },
-    { _id: 1, password: 1, role: 1 }
+    { email },
+    { _id: 1, password: 1 }
   ).lean();
 };
