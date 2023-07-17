@@ -19,7 +19,7 @@ const addWishlist: RequestHandler = catchAsync(
 
 const getWishlist: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
-    const { email } = req.body;
+    const email = req.params.email;
     const result = await WishlistService.getWishlist(email);
     sendResponse(res, {
       statusCode: httpStatus.OK,
