@@ -30,7 +30,21 @@ const getReading: RequestHandler = catchAsync(
   }
 );
 
+const updateReading: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await ReadingService.updateReading(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Reading updated successfully",
+      data: result,
+    });
+  }
+);
+
 export const ReadingController = {
   addReading,
   getReading,
+  updateReading,
 };

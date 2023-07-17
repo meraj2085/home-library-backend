@@ -11,7 +11,16 @@ const getReading = async (email: string) => {
   return reading;
 };
 
+const updateReading = async (id: string) => {
+  const reading = await Reading.findByIdAndUpdate(
+    { _id: id },
+    { completed: true }
+  );
+  return reading;
+};
+
 export const ReadingService = {
   addReading,
   getReading,
+  updateReading,
 };
