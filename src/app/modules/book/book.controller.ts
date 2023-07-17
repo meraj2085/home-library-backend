@@ -34,7 +34,22 @@ const createBook: RequestHandler = catchAsync(
   }
 );
 
+const addComment: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const { comment } = req.body;
+    const id = req.params.id;
+    const result = await BookService.addComment(comment, id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Comment added successfully",
+      data: result,
+    });
+  }
+);
+
 export const BookController = {
   getBooks,
   createBook,
+  addComment,
 };

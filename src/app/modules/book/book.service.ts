@@ -26,10 +26,10 @@ const getBooks = async (
   const andConditions = [];
   if (searchTerm) {
     andConditions.push({
-      $or: bookSearchableFields.map(field => ({
+      $or: bookSearchableFields.map((field) => ({
         [field]: {
           $regex: searchTerm,
-          $options: 'i',
+          $options: "i",
         },
       })),
     });
@@ -61,13 +61,21 @@ const getBooks = async (
   };
 };
 
-
 const createBook = async (bookData: IBook): Promise<IBook | null> => {
   const newBook = await Book.create(bookData);
   return newBook;
 };
 
+const addComment = async (comment: Partial<IBook>, id: string) => {
+  const book = await Book.updateOne(
+    { _id: id },
+    { $push: { comments: comment } }
+  );
+  return book;
+};
+
 export const BookService = {
   getBooks,
   createBook,
+  addComment,
 };
