@@ -9,10 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isUserExist = void 0;
-const isUserExist = function (email, UserDb) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return yield UserDb.findOne({ email }, { _id: 1, password: 1 }).lean();
-    });
+exports.WishlistService = void 0;
+const wishlist_model_1 = require("./wishlist.model");
+const addWishlist = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    const wishlist = yield wishlist_model_1.Wishlist.create(data);
+    return wishlist;
+});
+const getWishlist = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const wishlist = yield wishlist_model_1.Wishlist.find({ user_email: email });
+    return wishlist;
+});
+exports.WishlistService = {
+    addWishlist,
+    getWishlist,
 };
-exports.isUserExist = isUserExist;

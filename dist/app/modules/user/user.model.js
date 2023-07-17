@@ -15,26 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose_1 = require("mongoose");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const user_interface_1 = require("./user.interface");
 const config_1 = __importDefault(require("../../../config"));
 const userSchema = new mongoose_1.Schema({
-    phoneNumber: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, required: true, enum: Object.values(user_interface_1.UserRoles) },
     name: {
-        firstName: { type: String, required: true },
-        lastName: { type: String, required: true },
+        first_name: { type: String, required: true },
+        last_name: { type: String, required: true },
     },
-    address: { type: String, required: true },
-    budget: { type: Number, required: true, default: 0 },
-    income: { type: Number, required: true, default: 0 },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
 }, {
     timestamps: true,
     toJSON: {
         virtuals: true,
     },
 });
-userSchema.pre('save', function (next) {
+userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
         user.password = yield bcrypt_1.default.hash(user.password, Number(config_1.default.bcrypt_salt_rounds));
