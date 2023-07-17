@@ -66,6 +66,18 @@ const createBook = async (bookData: IBook): Promise<IBook | null> => {
   return newBook;
 };
 
+const editBook = async (bookData: IBook, id: string): Promise<IBook | null> => {
+  const book = await Book.findByIdAndUpdate({ _id: id }, bookData, {
+    new: true,
+  });
+  return book;
+};
+
+const deleteBook = async (id: string): Promise<IBook | null> => {
+  const book = await Book.findByIdAndDelete({ _id: id })
+  return book;
+};
+
 const addComment = async (comment: Partial<IBook>, id: string) => {
   const book = await Book.updateOne(
     { _id: id },
@@ -78,4 +90,6 @@ export const BookService = {
   getBooks,
   createBook,
   addComment,
+  editBook,
+  deleteBook
 };
